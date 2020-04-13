@@ -3,6 +3,194 @@ title: "Super Rugby Try Analysis"
 author: "Shaun Cameron"
 date: "12/04/2020"
 output: html_document
+
 ---
+
+
+# **The Data**
+
+The data used for this activity is stored in the 2017_super-rugby_try-source-data.csv file. This data consists of tries that were scored during the 2017 Super Rugby competition (observations/rows). Here is a description of the variables:
+
+**try_no:** a unique identification number given to each try
+
+**round_no:** an identification number to distinguish the round number the try was scored in
+
+**attacking_team:** the try-scoring team
+
+**defending_team:** the opposition team who conceded the try
+
+**attacking_rank:** the final league ranking at the end of the season of the try-scoring team
+
+**defending_rank:** the final league ranking at the end of the season of the opposition team
+
+**attacking_conference:** the conference group of the try-scoring team
+
+**defending_conference:** the conference group of the opposition team
+
+**game_time:** the game time in minutes when the try was scored
+
+**try_source:** the initial source of possession for the attacking team preceding the try
+
+**final_source:** the event that directly preceded the try and resulted in the try being scored
+
+**phases:** the total number of phases between gaining possession, and the try being scored (a phase is from one ruck to the next ruck)
+
+**time_from_source:** the time taken from gaining possession to scoring the try, in seconds
+
+**possession_zone:** the zone on the field the attacking team gained possession of the ball before scoring the try (A = attacking 22m line to try-line, B = halfway to attacking 22m line, C = defensive 22m line to halfway, D = )
+**offloads:** the number of offloads from gaining possession to the try being scored
+
+**passes:** the number of passes from gaining possession to the try being scored
+
+**total_passes:** the number of offloads plus passes
+
+This data was collected by a former UC student, Molly Coughlan, as part of a project that identified playing patterns that led to tries in super rugby.
+
+# **R Setup**
+
+
+
+```{r reading in data, message=FALSE}
+
+library(tidyverse) #load relevant packages
+
+df <- read_csv("data/2017_super-rugby_try-source-data.csv") # load data source
+```
+
+
+# **Checking Data**
+
+```{r check data, results='hide'}
+
+
+str(df) # provides structure of df
+
+
+head(df) # shows first 6 rows of df
+
+
+tail(df) # shows last 6 rows of df
+
+
+
+```
+
+
+# **Data Visualisation**
+
+
+## **Attacking Prowess**
+
+This graph shows how many tries each team has scored.
+
+
+```{r attacking prowess}
+
+ggplot(data = df) +
+  geom_bar(mapping = aes(x = attacking_team), stat = "count", fill = "red", colour = "black") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+```
+
+
+
+## **When were the Tries Scored?**
+
+This graph shows what time the tries were scored. It seems as though there is no real pattern as to when the tries are scored, although it is interesting to note that the end of the first half (40) ranks among the highest frequency. Perhaps this is due to the fact that play only stops when the ball goes out or points are scored, and crossing the line is the most beneficial play to make.
+
+
+
+
+```{r try times}
+
+ggplot(data = df, aes(x = game_time)) +
+  geom_histogram(mapping = aes(y = ..density..), colour = "dodgerblue", fill = "gold") +
+  geom_density(alpha = 0.3, fill = "white")
+
+```
+
+
+## **Sourcing the Tries**
+
+These graphs show the initial event of attacking possession leading to the try and the final play before the try was scored respectively. It makes sense that the lineout was the most common phase of play starting the possession, given that most of the time in rugby the ball is kicked out for positional advantage, and the lineout is usually the best option for restarting play. In the final phase before the try is scored however, the trends are a little bit less discernable. Multiphase plays lead to the most tries, but they obviously come from a range of different plays (hence the name).
+
+```{r try sources}
+
+ggplot(df, aes(x = try_source), stat = "count") +
+  geom_bar(fill = "red", colour = "green") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+
+ggplot(df, aes(x = final_source), stat = "count") +
+  geom_bar(fill = "steelblue", colour = "slategrey") + 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+```
+
+
+## **Where Did the Play Begin?**
+
+This graph looks at how far out the attacking team first gained possession that resulted in a try. This graph makes perfect sense as the highest proportion of tries occur when possession is first received with 22 metres of the tryline (A). The downward trend follows with B (22-50 metres out), C (halfway to defensive 22) and D (22 to defensive tryline).
+
+``` {r possession zone}
+
+df %>%
+    count(possession_zone) %>%
+    mutate(prop = round(prop.table(n), 3)) %>%
+    ggplot() + 
+    geom_bar(mapping = aes(x = possession_zone, y = prop), colour = "royalblue", fill = "salmon", stat = "identity")
+
+```
+
+
+
+## **Time in Possession**
+
+The following graph looks at how long a team held possession before scoring. It looks like having the ball for less than a minute is much more ideal than holding it for longer, which is interesting. I suppose looking to get the ball up the field as quickly as possible is much more favourable than wearing the opposition down with multiple defensive efforts.
+
+
+``` {r possession time}
+
+ggplot(df, aes(x = time_from_source)) + 
+  geom_histogram(mapping = aes(y = ..density..), colour = "tan1", fill = "brown", binwidth = 10) +
+  geom_density(alpha = 0.3, fill = "grey")
+
+```
+
+
+
+## **Relationship Between Passing & Phase Length in Tryscoring**
+
+This graph highlights a strong relationship between the fact that the more phases an attacking team has the more passes they are likely to complete. 
+
+
+``` {r time pass data}
+
+df %>%
+   ggplot(mapping = aes(x = total_passes, y = phases)) +
+     geom_point(alpha = 0.3, size = 1, colour = "red") +
+     theme(plot.background = element_rect(fill = "white"),
+           panel.background = element_rect(fill = "lightcyan"),
+           axis.line = element_line(colour = "grey")) + 
+  geom_smooth()
+
+```
+
+
+## **Team Try Totals**
+
+Graph that simply outlines the number of tries each team scored, colour coded based on the colours of their playing strip.
+
+``` {r team tries}
+
+ggplot(df, aes(x = attacking_team, fill = attacking_team, colour = attacking_team)) +
+    geom_bar(stat = "count", position = "dodge") + 
+    theme(axis.text.x = element_text(angle = 60)) +
+    scale_fill_manual(values = c("dodgerblue4", "midnightblue", "steelblue3", "tan1", "black", "firebrick1", "mediumblue", "royalblue4", "black", "black", "black", "red1", "navyblue", "maroon", "black", "royalblue2", "red", "lightskyblue")) +
+    scale_colour_manual(values = c("steelblue1", "gold", "steelblue4", "white", "gold", "black", "black", "gold", "yellow", "orange", "firebrick1", "white", "red", "midnightblue", "white", "white", "white", "midnightblue"))
+    
+    
+```
+
+
+
 
 
