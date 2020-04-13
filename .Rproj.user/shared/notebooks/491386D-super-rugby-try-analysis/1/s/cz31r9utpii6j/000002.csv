@@ -1,0 +1,6 @@
+"0",""
+"0","ggplot(df, aes(x = attacking_team, fill = attacking_team, colour = attacking_team)) +"
+"0","    geom_bar(stat = ""count"", position = ""dodge"") + "
+"0","    theme(axis.text.x = element_text(angle = 60)) +"
+"0","    scale_fill_manual(values = c(""dodgerblue4"", ""midnightblue"", ""steelblue3"", ""tan1"", ""black"", ""firebrick1"", ""mediumblue"", ""royalblue4"", ""black"", ""black"", ""black"", ""red1"", ""navyblue"", ""maroon"", ""black"", ""royalblue2"", ""red"", ""lightskyblue"")) +"
+"0","    scale_colour_manual(values = c(""steelblue1"", ""gold"", ""steelblue4"", ""white"", ""gold"", ""black"", ""black"", ""gold"", ""yellow"", ""orange"", ""firebrick1"", ""white"", ""red"", ""midnightblue"", ""white"", ""white"", ""white"", ""midnightblue""))"

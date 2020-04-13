@@ -1,0 +1,25 @@
+"0",""
+"0","tinytex::install_tinytex()"
+"2","trying URL 'http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip'
+"
+"2","Content length 338 bytes
+"
+"2","downloaded 21.7 MB
+
+"
+"2","trying URL 'https://yihui.org/gh/tinytex/tools/pkgs-custom.txt'
+"
+"2","Content length 81 bytes
+"
+"2","downloaded 534 bytes
+
+"
+"2","trying URL 'https://yihui.org/gh/tinytex/tools/tinytex.profile'
+"
+"2","Content length 81 bytes
+"
+"2","downloaded 183 bytes
+
+"
+"2","Starting to install TinyTeX to C:\Users\shaun\AppData\Roaming/TinyTeX. It will take a few minutes.
+"

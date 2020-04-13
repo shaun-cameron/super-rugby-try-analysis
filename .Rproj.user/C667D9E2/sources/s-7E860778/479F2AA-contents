@@ -6,6 +6,13 @@ output: pdf_document
 
 ---
 
+```{r load tinytex}
+
+tinytex::install_tinytex()
+
+library(tinytex) #allows for pdf document output
+
+```
 
 # **The Data**
 

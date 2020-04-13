@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1586683612706.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "173711016",
+    "id" : "479F2AA",
+    "lastKnownWriteTime" : 1586742208,
+    "last_content_update" : 1586742208929,
+    "path" : "C:/Users/shaun/repos/super-rugby-try-analysis/super-rugby-try-analysis.Rmd",
+    "project_path" : "super-rugby-try-analysis.Rmd",
+    "properties" : {
+        "cursorPosition" : "11,0",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,7 @@
+"0",""
+"0","df %>%"
+"0","    count(possession_zone) %>%"
+"0","    mutate(prop = round(prop.table(n), 3)) %>%"
+"0","    ggplot() + "
+"0","    geom_bar(mapping = aes(x = possession_zone, y = prop), colour = ""royalblue"", fill = ""salmon"", stat = ""identity"")"
+"0",""
